@@ -12,41 +12,22 @@ import {
   TextField,
 } from "@heroui/react";
 
-export function SignUpPage() {
+const SignIn = () => {
   const onSubmit = async (e) => {
     e.preventDefault();
-    const formData = new FormData(e.currentTarget);
-    const userData = Object.fromEntries(formData.entries());
-    console.log("form data", userData);
+   const formData = new FormData(e.currentTarget);
+   const userData = Object.fromEntries(formData.entries());
+   console.log("form data signin", userData);
 
-    
-    const { data, error } = await authClient.signUp.email({
-      email: userData.email,
-      password: userData.password,
-      name: userData.name,
-  });
-    console.log("server data", data);
-    console.log("server error", error);
-    
-  };
-
+   const { data, error } = await authClient.signIn.email(userData.email, userData.password);
+   console.log("server data", data);
+   console.log("server error", error);
+  }
   return (
     <div className="w-xl mx-auto mt-10">
+      <h1 className="text-2xl font-bold text-center p-6">SignIn</h1>
       <Form className="flex w-96 flex-col gap-4" onSubmit={onSubmit}>
-        <TextField
-          isRequired
-          name="name"
-          validate={(value) => {
-            if (value.length < 3) {
-              return "Name must be at least 3 characters";
-            }
-            return null;
-          }}
-        >
-          <Label>Name</Label>
-          <Input placeholder="Your Name here" />
-          <FieldError />
-        </TextField>
+        
         <TextField
           isRequired
           name="email"
@@ -102,7 +83,7 @@ export function SignUpPage() {
         </div>
       </Form>
     </div>
-  );
+  )
 }
 
-export default SignUpPage;
+export default SignIn
